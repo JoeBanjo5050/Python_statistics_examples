@@ -1,0 +1,25 @@
+# load the necessary modules
+import pandas as pd
+import statsmodels.formula.api as sm
+from statsmodels.formula.api import ols
+
+# load wine.csv
+wine = pd.read_csv('wine.csv')
+
+# fit a multiple regression model using the sms.ols function
+model = ols('quality ~ chlorides+pH+alcohol', wine).fit()
+
+
+chlorides = float(input())
+pH = float(input())
+alcohol = float(input())
+
+# create a pandas dataframe with chlorides, pH, and alcohol as columns 
+# with 1 row representing an instance with the given inputs for each column
+new = pd.DataFrame({'chlorides' :[chlorides], 'pH' : [pH], 'alcohol' : [alcohol]})
+
+# use the get_prediction function using weights = 1 and alpha = 0.05 to obtain the 
+# the prediction and confidence intervals
+intervals = model.get_prediction(new, weights=1).summary_frame(alpha=0.05)
+
+print(intervals)

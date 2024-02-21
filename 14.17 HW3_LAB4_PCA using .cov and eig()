@@ -1,0 +1,23 @@
+#import the necessary modules
+import numpy as np
+from numpy import linalg as LA
+import pandas as pd
+
+fires = pd.read_csv("forestfires.csv")
+
+# create a new data frame with the columns FFMC, DMC, DC, ISI, temp, RH, wind, and rain, in that order.
+X = pd.DataFrame(fires[['FFMC', 'DMC', 'DC', 'ISI', 'temp', 'RH', 'wind', 'rain']])
+
+# calculate the covariance matrix
+X_cov = X.cov() 
+
+# calculate the eigenvalues and eigenvectors of the matrix X_cov
+w,v = LA.eig(X_cov)
+
+# calculate the percentage of the variance contained in the first principle component
+
+var = w[0]/(sum(w[0:7]))
+
+print(w, v)
+
+print(var)

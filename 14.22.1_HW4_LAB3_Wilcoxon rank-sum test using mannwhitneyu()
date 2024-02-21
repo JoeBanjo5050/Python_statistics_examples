@@ -1,0 +1,18 @@
+# import the necessary 
+import pandas as pd
+from scipy import stats
+from decimal import Decimal
+
+
+price = pd.read_csv("pc_vs_cu.csv")
+
+# assign the column cu_value
+consumer = price[['cu_value']]
+# assign the column pc_value
+producer = price[['pc_value']]
+
+# perform a two-sided Mann-Whitney U test on the variables consumer and producer
+W, p = stats.mannwhitneyu(consumer, producer, alternative = "two-sided")
+
+print("W = ", '%E' %W)
+print("p-value = ", '%E' %p)

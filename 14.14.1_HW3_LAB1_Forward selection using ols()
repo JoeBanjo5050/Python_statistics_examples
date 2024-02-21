@@ -1,0 +1,61 @@
+# import the necessary modules
+import pandas as pd
+import statsmodels.formula.api as sms
+
+fires = pd.read_csv("forestfires.csv")
+
+# response variable
+Y = fires['area']
+
+#first forward step
+# generate the linear regression model for FFMC
+model1_1 = sms.ols('Y ~ FFMC', data=fires).fit()
+
+# prints the p-value
+print("model1_1 p-values are ", model1_1.pvalues)
+
+# generate the linear regression model for wind
+model1_2 = sms.ols('Y ~ DMC', data=fires).fit()
+
+print("model1_2 p-values are ", model1_2.pvalues)
+
+ # generate the linear regression model for DC
+model1_3 = sms.ols('Y ~ DC', data=fires).fit()
+
+print("model1_3 p-values are ", model1_3.pvalues)
+
+ # generate the linear regression model for temp
+model1_4 = sms.ols('Y ~ ISI', data=fires).fit()
+
+print("model1_4 p-values are ", model1_4.pvalues)
+
+# Second forward selection step using order FFMC, wind, DC, temp. Ex: If the best SLR model uses temp, the first MLR model should be Y ~ FFMC + temp.
+# generate multiple regression model 
+model2_1 = sms.ols('Y ~ FFMC+DC', data=fires).fit()
+
+print("model2_1 p-values are ", model2_1.pvalues)
+
+# generate multiple regression model
+model2_2 = sms.ols('Y ~ DMC+DC', data=fires).fit()
+
+print("model2_2 p-values are ", model2_2.pvalues)
+
+# generate multiple regression model
+model2_3 = sms.ols('Y ~ DC+ISI', data=fires).fit()
+
+print("model2_3 p-values are ", model2_3.pvalues)
+
+# Third forward regression step using order FFMC, wind, DC, temp
+# generate multiple regression model
+model3_1 = sms.ols('Y ~ FFMC+DMC+DC', data=fires).fit()
+
+print("model3_1 p-values are ", model3_1.pvalues)
+
+# generate multiple regression model
+model3_2 = sms.ols('Y ~ DMC+DC+ISI', data=fires).fit()
+
+print("model3_2 p-values are ", model3_2.pvalues)
+
+
+
+# Continue until no additional predictor variables have p-values less than 0.15.

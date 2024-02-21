@@ -1,0 +1,13 @@
+# load the pandas and datetime modules
+import pandas as pd
+from datetime import datetime 
+
+# lambda function that converts a string into datetime
+dateparse = lambda dates: datetime.strptime(dates, '%Y/%m/%d')
+
+# load the births dataset as a time series
+births = pd.read_csv('births.csv', 
+parse_dates=['Date'], date_parser = dateparse)
+
+# print the first 5 lines of the dataset
+print(births.head())

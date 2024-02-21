@@ -1,0 +1,29 @@
+# import the necessary modules
+import pandas as pd
+import statsmodels.formula.api as sms
+import statsmodels.api as sm 
+from statsmodels.tools import add_constant
+
+# read in Invistico_Airline_LR.csv
+flights = pd.read_csv('Invistico_Airline_LR.csv')
+flights.dropna(axis = 0, inplace = True)
+
+# create dummy variables for the categorical variables satisfaction, Gender, and Class
+flights = pd.get_dummies(flights, columns =['satisfaction'], prefix =['satisfaction'])
+flights = pd.get_dummies(flights, columns =['Gender'], prefix =['Gender'])
+flights = pd.get_dummies(flights, columns =['Class'], prefix =['Class'])
+
+#print(list(flights))
+
+# create a new data frame using the variables Gender_female, Age, Class_Eco, Flight_Distance, Departure_Delay_in_Minutes, and Arrival_Delay_in_Minutes, in that orde
+X = pd.DataFrame(flights[["Gender_Female","Age","Class_Eco","Flight_Distance","Departure_Delay_in_Minutes","Arrival_Delay_in_Minutes"]])
+
+X = add_constant(X)
+
+# set satisfaction_satisfied as the response variable
+Y = flights["satisfaction_satisfied"]
+
+# perform logistic regression on X and Y
+model = sm.GLM(Y, X, family=sm.families.Binomial()).fit()
+
+print(model.params)

@@ -1,0 +1,56 @@
+# import the necessary modules
+import pandas as pd
+import numpy as np
+import statsmodels.formula.api as sms
+import statsmodels.api as sm
+import scipy.stats as stats
+from statsmodels.tools import add_constant 
+from math import e
+
+female = int(input())
+age = float(input())
+economy = int(input())
+delay = float(input())
+
+# read in the file Invistico_Airline_LR.csv
+flights = pd.read_csv("Invistico_Airline_LR.csv")
+
+# remove missing data
+flights.dropna(axis = 0, inplace = True)
+
+# recode the categorical variables Gender, Class, and satisfaction as dummy variables
+flights = pd.get_dummies(flights, columns =['Gender'], prefix = ['Gender'])
+flights = pd.get_dummies(flights, columns =['Class'], prefix = ['Class'])
+flights = pd.get_dummies(flights, columns =['satisfaction'], prefix = ['satisfaction'])
+
+# create a new data frame from the variables Gender_Female, Age, Class_Eco, and Arrival_Delay_in_Minutes, in that order.
+X = pd.DataFrame(flights[["Gender_Female","Age","Class_Eco","Arrival_Delay_in_Minutes"]])
+
+X = add_constant(X)
+
+# set Y as the response variable satisfaction_satisfied
+Y = flights["satisfaction_satisfied"]
+
+# perform logistic regression on X and Y
+model = sm.GLM(Y, X, family=sm.families.Binomial()).fit()
+
+# create an array with 1 for the intercept, and the user input values female, age, economy, and delay
+ex = np.array([1, female, age, economy, delay])
+exx = np.multiply(model.params, ex)
+
+df = pd.DataFrame(exx)
+df = df.rename(columns={0: 'Values'})
+
+Calc = []
+Calc = df["Values"].tolist()
+ 
+Const = float(Calc[0])
+GF = float(Calc[1])
+Ag = float(Calc[2])
+CE = float(Calc[3])
+AD = float(Calc[4])
+
+# find the predicted probablility that a customer with the user input values is satisfied
+prediction = (e**(Const+GF+Ag+CE+AD))/(1+(e**(Const+GF+Ag+CE+AD)))
+
+print("["+str(prediction)+"]")

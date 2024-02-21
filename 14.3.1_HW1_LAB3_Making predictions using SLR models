@@ -1,0 +1,21 @@
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as sms
+
+# load the file kc_house_data.csv
+house = pd.read_csv("kc_house_data.csv")
+
+print(house)
+
+# fit a linear model using the sms.ols function and the house dataframe
+model = sms.ols('price ~ sqft_living', house).fit()
+
+area = float(input())
+
+# use the model.predict function to find the predicted value for price using 
+## the area value for the predictor
+prediction = model.predict(pd.DataFrame(np.array([[area]]),columns=['sqft_living']))
+
+print(prediction)
+
+

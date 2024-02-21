@@ -1,0 +1,25 @@
+# import the math and random modules
+import random as rand
+import math
+
+# sets seed to input
+num = int(input())
+rand.seed(num)
+
+hits = 0
+
+for i in range(10000):
+    # randomly generate an angle from 0 to 180 degrees
+    theta = rand.randint(0,180)
+
+    # randomly generate a number from 0 to 0.5
+    D = rand.uniform(0,0.5)
+ 
+    # write condition for the needle hitting the line before the :
+    if D <= 0.5*math.sin(math.radians(theta)): 
+        hits += 1
+        
+# write formula for the approximation of pi
+approximation = 2*(10000/hits)
+print(f'{approximation:.6f}')
+

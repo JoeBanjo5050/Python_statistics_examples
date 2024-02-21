@@ -1,0 +1,17 @@
+# Import the necessary modules
+import pandas as pd
+import statsmodels.api as sm
+from statsmodels.stats.anova import anova_lm
+from statsmodels.formula.api import ols
+
+# Code to read in kc_house_data.csv
+housing = pd.read_csv('kc_house_data.csv')
+
+results = ols('price ~ sqft_living +(condition)', housing).fit()
+
+# Create an analysis of variance table
+# Code to create ANOVA table
+aov_table = sm.stats.anova_lm(results, typ=2)
+
+# Print the analysis of variance table
+print(aov_table)

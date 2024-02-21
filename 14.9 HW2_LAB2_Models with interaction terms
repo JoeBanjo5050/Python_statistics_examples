@@ -1,0 +1,18 @@
+# Import necessary modules
+import pandas as pd
+import statsmodels.api as sms
+from statsmodels.formula.api import ols
+
+# Read in forestfires.csv as dataframe
+fires = pd.read_csv('forestfires.csv')
+
+# Fit a multiple regression model using sms.ols() with the response variable area and the predictor variable wind 
+# and the interaction term RH*temp, in that order.
+# Code for multiple regression model
+model = ols('area ~ wind+RH*temp', fires).fit()
+
+# Create an analysis of variance table
+ # Code to create ANOVA table
+aov_table = sms.stats.anova_lm(model, typ=2)
+
+print(aov_table)

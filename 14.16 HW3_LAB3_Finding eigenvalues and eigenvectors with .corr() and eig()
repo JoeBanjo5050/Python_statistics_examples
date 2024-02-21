@@ -1,0 +1,17 @@
+#import the necessary modules
+import numpy as np
+from numpy import linalg as LA
+import pandas as pd
+
+fires = pd.read_csv("forestfires.csv")
+
+# create a new data frame with the columns FFMC, DMC, DC, ISI, temp, RH, wind, and rain, in that order.
+X = pd.DataFrame(fires[['FFMC', 'DMC', 'DC', 'ISI', 'temp', 'RH', 'wind', 'rain']])
+
+# calculate the correlation matrix for the data in the data frame X
+X_corr = X.corr() 
+
+# calculate the eigenvalues and eigenvectors of the matrix X_corr
+w,v = LA.eig(X_corr)
+
+print(w, v)

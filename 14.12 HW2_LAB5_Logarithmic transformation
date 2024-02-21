@@ -1,0 +1,13 @@
+import pandas as pd
+import numpy as np
+
+wine = pd.read_csv('wine.csv')
+
+# subset the free dioxide feature
+sulfur = wine[['free sulfur dioxide']]
+
+# log transform the values
+sulfur_log = np.log(sulfur)
+sulfur_log = sulfur_log['free sulfur dioxide']
+
+print(sulfur_log.head())

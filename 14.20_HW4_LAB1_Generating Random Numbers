@@ -1,0 +1,21 @@
+import numpy as np
+import scipy.stats as st
+
+
+# set seed to input
+num = int(input())
+np.random.seed(num)
+
+# randomly generate 500 numbers between 0 and 100 using the linspace function
+x = np.linspace(0,100,500)
+
+# randomly generate 500 numbers from the normal distribution with mean = 0 and sd = 1
+noise = np.random.normal(0,1,500)
+
+# sum of x and noise
+y = x + noise
+
+# create a linear regression model using scipy.stats
+model = st.linregress(x,y)
+
+print(model)

@@ -1,0 +1,21 @@
+# import the necessary modules
+import numpy as np
+import pandas as pd
+from scipy import stats
+from decimal import Decimal
+
+purpose = pd.read_csv("purpose.csv")
+
+# assign the column Business
+x = purpose[['Business']]
+
+# assign the column Pleasure
+y = purpose[['Pleasure']]
+
+# assign the column Visit_Relatives
+z = purpose[['Visit_Relatives']]
+
+# perform Kruskal-Wallis test on x, y, and z
+H, p = stats.kruskal(x, y, z)
+print("H = "'%E' %H)
+print("p-value = "'%E' %p)

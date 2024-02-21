@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+import statsmodels.formula.api as sms
+import statsmodels.api as sm
+
+cars = pd.read_csv("mtcars.csv")
+
+# Create a new column in the data frame called exp_wt which is the negative exponentiation of the column wt
+cars['exp_wt'] = 1/np.exp(cars['wt'])
+
+# Perform multiple linear regression with mpg as the response variable and wt and exp_wt 
+# in that order, as the predictor variables
+# Code to perform multiple regression using statsmodels ols 
+results = sms.ols('mpg~ wt+exp_wt', cars).fit()
+
+# Create an analysis of variance table
+aov_table =sm.stats.anova_lm(results, typ=2)
+
+
+print(aov_table)

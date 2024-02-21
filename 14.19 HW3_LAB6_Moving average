@@ -1,0 +1,13 @@
+import pandas as pd
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+# load the Heating.csv dataset 
+ts = pd.read_csv('Heating.csv')
+
+# load the Expense column as a pandas Series
+expense = ts['Expense']
+
+# create the 4-MA series
+mov_ave = expense.rolling(window=4, center=False).mean()
+
+print(mov_ave)

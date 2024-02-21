@@ -1,0 +1,17 @@
+# import the necessary modules
+import pandas as pd
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from patsy import dmatrices
+
+# read in the csv file
+house = pd.read_csv('kc_house_data.csv')
+
+# create matrices y, from the price column, and X, from the bedrooms, bathrooms, sqft_living, sqft_lot, yr_built, and sqft_living15 columns
+y, X = dmatrices('price ~ bedrooms+bathrooms+sqft_living+sqft_lot+yr_built+sqft_living15', house, return_type='dataframe')
+
+# calculate the VIF for each X_i
+vif = [variance_inflation_factor(X.values, i+1) for i in range(X.shape[1]-1)]
+
+result = [round(num, 6) for num in vif]
+
+print(result)

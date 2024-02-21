@@ -1,0 +1,23 @@
+# Import the necessary modules
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as sms
+import statsmodels.api as sm
+
+# Code to read in insurance.csv
+ins = pd.read_csv('insurance.csv')
+
+# Recode the column smoker into a dummy variable with the prefix smoker
+ins = pd.get_dummies(ins, columns=['smoker'], prefix = ['smoker'])
+
+# Perform multiple linear regression with charges as the response variable and age, bmi and smoke 
+# in that order, as the predictor variables
+# Code to perform multiple regression using statsmodels ols 
+results = sms.ols('charges ~ age+bmi+smoker_yes', data = ins).fit()
+
+# Create an analysis of variance table
+# Code to create ANOVA table
+aov_table = sm.stats.anova_lm(results, typ=2) 
+
+# Print the analysis of variance table
+print(aov_table)
